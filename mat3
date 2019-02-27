@@ -1,0 +1,336 @@
+#ifndef GEO1004_MAT3_H
+#define GEO1004_MAT3_H
+
+#include "vec3.h"
+
+class mat3
+{
+public:
+	// default constructor
+	mat3();
+
+	// initialized constructor
+	mat3(
+		float m00, float m01, float m02,
+		float m10, float m11, float m12,
+		float m20, float m21, float m22);
+
+	// copy constructor
+	mat3(const mat3& other);
+
+	// destructor
+	~mat3();
+
+	// overwrite this mat3 with all zero entries
+	void zeros();
+
+	// overwrite this mat3 with identity
+	void identity();
+
+    // compute and return the transposed mat3
+	mat3 transpose() const;
+
+	// operators -- mat3-mat3
+	mat3 operator+(const mat3& other) const; // addition
+	mat3 operator-(const mat3& other) const; // subtraction
+	mat3 operator*(const mat3& other) const; // multiplication
+	mat3 operator-() const;			 // negation
+
+	const mat3& operator+=(const mat3& other); // cumulative addition
+	const mat3& operator-=(const mat3& other); // cumulative subtraction
+	const mat3& operator*=(const mat3& other); // cumulative multiplication
+
+	// operators -- mat3-vector
+	vec3 operator*(const vec3& v);	// mat3-vector product
+
+	// operators -- mat3-scalar
+	const mat3& operator*=(float scalar);	// mat3-scalar product
+	const mat3& operator/=(float scalar);	// mat3-scalar division
+	mat3 operator*(float scalar);		// mat3-scalar product
+	mat3 operator/(float scalar);		// mat3-scalar division
+
+    // assignment operator
+	const mat3& operator=(const mat3& other);	// assignment
+
+    // access components
+    float& operator()(int i, int j);        // RW access to components: i_th row, j_th column
+    float operator()(int i, int j) const;	// RO access to components: i_th row, j_th column
+
+protected:
+    float	m_data[9];
+};
+
+
+inline mat3 operator*(float scalar, const mat3& M) {
+	// TODO -- multiply each component of M with scalar, in a new mat3. return new mat3
+    mat3 M2;
+
+    for (int i = 0; i < 3; ++i) {
+        for (int j = 0; j < 3; ++j){
+            M2(i, j) = M(i, j) * scalar;
+        }
+    }
+    return M2; // replace this line
+}
+
+
+inline std::ostream& operator<<(std::ostream& out, const mat3& M) {
+	// output a mat3 row-by-row to the "out" stream
+	for (int i = 0; i < 3; ++i) {
+		for (int j = 0; j < 3; ++j) {
+			out << M(i, j) << " ";
+		}
+		out << std::endl;
+	}
+	return out;
+}
+
+
+inline std::istream& operator>>(std::istream& in, mat3& M) {
+	// TODO: read a mat3 row-by-row from the "in" stream
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; ++j){
+            in >> M(i, j);
+        }
+    }
+	return in;
+}
+
+
+
+inline mat3::mat3() {
+    // TODO -- initialize m_data with 0s
+    m_data[0] = 0;
+    m_data[1] = 0;
+    m_data[2] = 0;
+    m_data[3] = 0;
+    m_data[4] = 0;
+    m_data[5] = 0;
+    m_data[6] = 0;
+    m_data[7] = 0;
+    m_data[8] = 0;
+
+}
+
+inline mat3::mat3(
+    float m00, float m01, float m02,
+	float m10, float m11, float m12,
+	float m20, float m21, float m22)
+{
+    // TODO -- initialize m_data with the provided components.
+    m_data[0] = m00;
+    m_data[1] = m01;
+    m_data[2] = m02;
+    m_data[3] = m10;
+    m_data[4] = m11;
+    m_data[5] = m12;
+    m_data[6] = m20;
+    m_data[7] = m21;
+    m_data[8] = m22;
+
+}
+
+inline mat3::mat3(const mat3& other) {
+    // TODO -- copy other to (*this), component by component
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; ++j){
+            this-> operator()(i, j) = other(i, j);
+        }
+    }
+}
+inline mat3::~mat3() {
+}
+
+inline void mat3::zeros() {
+    // overwrite this mat3 with all zero entries
+    for (int i = 0; i < 3; ++i) {
+        for (int j = 0; j < 3; ++j){
+            this-> operator()(i, j) = 0;
+        }
+    }
+}
+inline void mat3::identity() {
+    // overwrite this mat3 with identity
+    m_data[0] = 1;
+    m_data[1] = 0;
+    m_data[2] = 0;
+    m_data[3] = 0;
+    m_data[4] = 1;
+    m_data[5] = 0;
+    m_data[6] = 0;
+    m_data[7] = 0;
+    m_data[8] = 1;
+}
+
+inline mat3 mat3::transpose() const {
+	// TODO -- compute the transpose of this mat3 in a new mat3 and return.
+    mat3 result;
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; ++j){
+            result(j, i) = this -> operator()(i, j);
+        }
+    }
+    return result; // replace this line
+}
+
+inline mat3 mat3::operator+(const mat3& other) const {
+	// TODO -- compute a new mat3 (*this)+other, return the new mat3
+    mat3 result;
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; ++j){
+            result(i, j) = this -> operator()(i, j) + other(i, j);
+        }
+    }
+    return result; // replace this line
+}
+
+inline mat3 mat3::operator-(const mat3& other) const {
+	// TODO -- compute a new mat3 (*this)-other, return the new mat3
+    mat3 result;
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; ++j){
+            result(i, j) = this -> operator()(i, j) - other(i, j);
+        }
+    }
+    return result; // replace this line
+}
+
+inline mat3 mat3::operator*(const mat3& other) const {
+	// TODO -- compute a new mat3 (*this) * other, return the new mat3
+    mat3 result;
+    int k;
+
+    for (int i = 0; i < 3; i++) { //row
+        for (int j = 0; j < 3; ++j){ //column
+            result(i, j)= 0;
+            for (int k = 0; k < 3; k++){
+                result(i, j) = result(i, j) + operator()(i, 0 + k) * other(0 + k, j);
+            }
+        }
+    }
+
+    return result; // replace this line
+}
+
+inline mat3 mat3::operator-() const {
+	// TODO -- compute a new mat3 -(*this), return the new mat3
+    mat3 result;
+
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; ++j){
+            result(i, j) = this -> operator()(i, j) * -1;
+        }
+    }
+    return result; // replace this line
+}
+
+inline const mat3& mat3::operator+=(const mat3& other) {
+	// TODO -- add other to this mat3
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; ++j){
+            this -> operator()(i, j) + other(i, j);
+        }
+    }
+	return *this;
+}
+
+inline const mat3& mat3::operator-=(const mat3& other) {
+	// TODO -- subtract other from this mat3
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; ++j){
+            this -> operator()(i, j) - other(i, j);
+        }
+    }
+	return *this;
+}
+
+inline const mat3& mat3::operator*=(const mat3& other) {
+	// TODO -- replace this mat3 by (*this) * other. Make sure you do not overwrite elements that you still need.
+    mat3 result;
+    int k;
+
+    for (int i = 0; i < 3; i++) { //row
+        for (int j = 0; j < 3; ++j){ //column
+            result(i, j)= 0;
+            for (int k = 0; k < 3; k++){
+                result(i, j) = result(i, j) + operator()(i, 0 + k) * other(0 + k, j);
+                this-> operator() (i, j) = result(i, j);
+            }
+
+        }
+    }
+
+	return *this;
+}
+
+inline vec3 mat3::operator*(const vec3& v) {
+	// TODO -- compute the mat3-vector product (*this) * v and return the result
+    return vec3(); // replace this line
+}
+
+inline const mat3& mat3::operator*=(float scalar) {
+	// TODO -- multiply each mat3 component by scalar.
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; ++j){
+            this -> operator()(i, j) * scalar;
+        }
+    }
+	return *this;
+}
+
+inline const mat3& mat3::operator/=(float scalar) {
+    assert(scalar != 0);
+	// TODO -- divide each mat3 component by scalar.
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; ++j){
+            this -> operator()(i, j) * scalar;
+        }
+    }
+	return *this;
+}
+
+inline mat3 mat3::operator*(float scalar) {
+	// TODO -- compute a new mat3 (*this) * scalar.
+    mat3 result;
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; ++j){
+            result(i, j) = this -> operator()(i, j) * scalar;
+        }
+    }
+    return result; // replace this line
+}
+
+inline mat3 mat3::operator/(float scalar) {
+    assert(scalar != 0);
+	// TODO -- divide each mat3 component by scalar and store in a new mat3. return the new mat3.
+    mat3 result;
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; ++j){
+            result(i, j) = this -> operator()(i, j) / scalar;
+        }
+    }
+    return result; // replace this line
+}
+
+
+inline const mat3& mat3::operator=(const mat3& other) {
+	// TODO -- overwrite each component in this mat3 by the matching component in other
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; ++j){
+            this-> operator()(i, j) = other(i, j);
+        }
+    }
+	return *this;
+}
+
+inline float& mat3::operator()(int i, int j) {
+    assert(i < 3 && j < 3);
+    return m_data[i * 3 + j];
+}
+
+inline float mat3::operator()(int i, int j) const {
+    assert(i < 3 && j < 3);
+    return m_data[i * 3 + j];
+}
+
+#endif
